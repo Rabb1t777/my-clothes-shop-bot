@@ -1,15 +1,16 @@
 # shop_bot.py
+import os
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler
 
-# === НАСТРОЙКИ — ЗАМЕНИТЕ НА СВОИ ===
-BOT_TOKEN = "8063864783:AAEjiGP7SfYbIc5EHG8-J7drGFrTtELaF1g"        # ← Обязательно замените!
-SHOP_URL = "https://funny-export-72093872.figma.site"         # ← Должен начинаться с https://
+# === НАСТРОЙКИ ===
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise RuntimeError("Ошибка: переменная BOT_TOKEN не задана!")
 
-# =====================================
+SHOP_URL = "https://ваш-магазин.рф"  # ← замените на ваш HTTPS-сайт
 
 async def start(update, context):
-    """Обработчик команды /start"""
     keyboard = [[InlineKeyboardButton("🛍 Открыть магазин", url=SHOP_URL)]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
@@ -19,7 +20,6 @@ async def start(update, context):
     )
 
 async def help_command(update, context):
-    """Обработчик команды /help"""
     await update.message.reply_text(
         "ℹ️ <b>Справка</b>\n\n"
         "Этот бот поможет вам быстро перейти в наш онлайн-магазин.\n\n"
@@ -30,14 +30,10 @@ async def help_command(update, context):
     )
 
 def main():
-    """Запуск бота"""
     app = Application.builder().token(BOT_TOKEN).build()
-
-    # Регистрация обработчиков
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
-
-    print("✅ Бот запущен. Нажмите Ctrl+C для остановки.")
+    print("✅ Бот запущен...")
     app.run_polling()
 
 if __name__ == "__main__":
