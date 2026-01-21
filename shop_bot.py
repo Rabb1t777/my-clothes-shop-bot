@@ -8,7 +8,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 if not BOT_TOKEN:
     raise RuntimeError("Ошибка: переменная BOT_TOKEN не задана!")
 
-SHOP_URL = "https://ваш-магазин.рф"  # ← замените на ваш HTTPS-сайт
+SHOP_URL = "https://funny-export-72093872.figma.site"  # ← замените на ваш HTTPS-сайт
 
 async def start(update, context):
     keyboard = [[InlineKeyboardButton("🛍 Открыть магазин", url=SHOP_URL)]]
@@ -38,3 +38,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
